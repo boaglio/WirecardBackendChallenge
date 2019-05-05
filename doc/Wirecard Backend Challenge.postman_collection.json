@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "0bf51ed9-a5bd-4937-9abf-fbb86771bf09",
+		"name": "Wirecard Backend Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list buyers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"id\":1,\n \"amount\":344,\n \"type\": \"BOLETO\"\n \n \n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/list/all/buyer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"list",
+						"all",
+						"buyer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment - boleto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"client\": { \"id\":1 },\n \"amount\":344,\n \"type\": \"BOLETO\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment - credit card",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"client\": { \"id\":1 },\n \"amount\":467.88,\n \"type\": \"CREDIT_CARD\",\n \"card\": { \n    \"cardHolderName\":\"Machado de Assis\",\n    \"cardNumber\": \"5453171527264345\",\n    \"cardExpirationDate\":\"2021/02\",\n    \"cardCVV\":545\n }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkout - boleto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"client\": { \"id\":1 },\n \"amount\":344,\n \"type\": \"BOLETO\",\n \"buyer\": { \"id\": \"5cc79a7fc0b347ba4ab03b80\"}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkout - creditcard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80b1821c-b750-4522-94cb-5c55a6b3b5c5",
+						"exec": [
+							"var data = pm.response.json(); ",
+							"pm.globals.set(\"payment_id\", data.orderID); ",
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"client\": {  \"id\":1 },\n \"amount\":467.88,\n \"type\": \"CREDIT_CARD\",\n \"buyer\": { \"id\": \"5cc79a7fc0b347ba4ab03b80\"},\n \"card\": { \n    \"cardHolderName\":\"Machado de Assis\",\n    \"cardNumber\": \"5453171527264345\",\n    \"cardExpirationDate\":\"2021/02\",\n    \"cardCVV\":545\n }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/payment/status/{{payment_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payment",
+						"status",
+						"{{payment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list payments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"id\":1,\n \"amount\":344,\n \"type\": \"BOLETO\"\n \n \n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/list/all/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"list",
+						"all",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

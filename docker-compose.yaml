@@ -1,0 +1,10 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongodb-wbc
+    image: mongo:latest
+    volumes:
+      - ./mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro      
+    ports:
+      - "27017:27017"
