@@ -3,6 +3,8 @@ services:
   mongo:
     container_name: mongodb-wbc
     image: mongo:latest
+    environment:
+            MONGO_INITDB_DATABASE: wcb
     volumes:
       - ./mongo-data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro      

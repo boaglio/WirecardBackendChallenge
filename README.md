@@ -21,7 +21,7 @@ Wirecard Backend Challenge
 
 ## Application Architecture
 
-* A aplicação usa o padrão: * Controller -> Service -> Repository ;
+* A aplicação usa o padrão: Controller -> Service -> Repository ;
 * Pela simplicidade do sistema não foram usados Facades;
 * Para o checkout acessar a API de pagamento internamente, foi usada a instância do Controller 
   ao invés de chamada REST por estarem no mesmo sistema.  
