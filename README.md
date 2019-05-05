@@ -82,4 +82,7 @@ Execute as rotinas do Postman nessa ordem:
 * payment status 
 * list payments
 
+### TODO
+
+Testes na API de checkout (apenas a de pagamento foi testada)
 
