@@ -44,10 +44,10 @@ public class PaymentController {
         Optional<Payment> storedPayment = service.findById(id);
 
         Payment payment = null;
-        if (storedPayment.isEmpty())
-            throw new PaymentNotFoundException();
-        else
+        if (storedPayment.isPresent())
             payment = storedPayment.get();
+        else
+            throw new PaymentNotFoundException();
 
         return payment;
     }
