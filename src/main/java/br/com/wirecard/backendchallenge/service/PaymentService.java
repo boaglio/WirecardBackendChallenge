@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.wirecard.backendchallenge.domain.Boleto;
 import br.com.wirecard.backendchallenge.domain.Payment;
 import br.com.wirecard.backendchallenge.repository.PaymentRepository;
+import br.com.wirecard.backendchallenge.type.PaymentMethod;
 import lombok.extern.java.Log;
 
 @Service
@@ -25,12 +26,8 @@ public class PaymentService {
     public void process(Payment payment) {
         log.info("Processando pagamento: " + payment);
 
-        switch (payment.getType()) {
-            case BOLETO:
-                payment.setBoleto(Boleto.builder().id(generateRandom()).build());
-                break;
-            default:
-                break;
+        if (payment.getType().equals(PaymentMethod.BOLETO)) {
+            payment.setBoleto(Boleto.builder().id(generateRandom()).build());
         }
 
         repository.save(payment);
