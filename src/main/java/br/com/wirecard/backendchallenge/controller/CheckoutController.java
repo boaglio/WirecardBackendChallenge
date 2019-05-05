@@ -19,6 +19,7 @@ import br.com.wirecard.backendchallenge.exception.BuyerNotFoundException;
 import br.com.wirecard.backendchallenge.exception.InvalidCreditCardException;
 import br.com.wirecard.backendchallenge.service.BuyerService;
 import br.com.wirecard.backendchallenge.service.PaymentService;
+import br.com.wirecard.backendchallenge.type.PaymentMethod;
 import br.com.wirecard.backendchallenge.type.PaymentStatus;
 import br.com.wirecard.backendchallenge.type.TransactionStatus;
 import lombok.extern.java.Log;
@@ -67,23 +68,19 @@ public class CheckoutController {
     }
 
     private Payment validateInput(Payment payment) throws InvalidCreditCardException {
+
         log.info("Validando checkout: " + payment);
 
-        switch (payment.getType()) {
-            case CREDIT_CARD:
-                CreditCard creditCard = null;
-                if (payment.getCard() != null) {
-                    creditCard = new CreditCard(payment.getCard().getCardNumber());
-                }
-                if (creditCard != null && creditCard.isValid()) {
-                    payment.setStatus(PaymentStatus.APPROVED);
-                    log.info("Bandeira: " + creditCard.getBrand());
-                } else
-                    throw new InvalidCreditCardException();
-                break;
-
-            default:
-                break;
+        if (payment.getType().equals(PaymentMethod.CREDIT_CARD)) {
+            CreditCard creditCard = null;
+            if (payment.getCard() != null) {
+                creditCard = new CreditCard(payment.getCard().getCardNumber());
+            }
+            if (creditCard != null && creditCard.isValid()) {
+                payment.setStatus(PaymentStatus.APPROVED);
+                log.info("Bandeira: " + creditCard.getBrand());
+            } else
+                throw new InvalidCreditCardException();
         }
 
         return payment;
